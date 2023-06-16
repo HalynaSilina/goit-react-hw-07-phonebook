@@ -8,7 +8,9 @@ const persistConfig = {
 };
 
 const contactsInitialState = {
-  contacts: { items: [], isLoading: false, error: null },
+  items: [],
+  isLoading: false,
+  error: null,
 };
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -16,7 +18,7 @@ const contactsSlice = createSlice({
   reducers: {
     addContact: {
       reducer(state, action) {
-        state.contacts.items.push(action.payload);
+        state.items.push(action.payload);
       },
       prepare(name, number) {
         return {
@@ -29,8 +31,8 @@ const contactsSlice = createSlice({
       },
     },
     deleteContact(state, action) {
-      state.contacts = state.contacts.items.filter(
-        contact => action.payload !== contact.id
+      state.items = state.items.filter(
+        item => action.payload !== item.id
       );
     },
   },
