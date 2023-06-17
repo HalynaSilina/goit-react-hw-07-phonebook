@@ -7,12 +7,12 @@ import { getContacts } from 'redux/selectors';
 
 const ContactForm = () => {
   const [userName, setUserName] = useState('');
-  const [number, setNumber] = useState('');
+  const [userNumber, setUserNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const handleInputChange = ({ target: { name, value } }) => {
     const normalizedValue = value.toLowerCase();
-    if (name === 'number')
+    if (name === 'userNumber')
       if (contacts.some(contact => contact.number === value))
         toast.error(`Number ${value} is also in contacts`, {
           position: 'top-left',
@@ -24,7 +24,7 @@ const ContactForm = () => {
           progress: undefined,
           theme: 'colored',
         });
-      else setNumber(value);
+      else setUserNumber(value);
     if (name === 'userName')
       if (
         contacts.some(contact => contact.name.toLowerCase() === normalizedValue)
@@ -44,12 +44,12 @@ const ContactForm = () => {
 
   const reset = () => {
     setUserName('');
-    setNumber('');
+    setUserNumber('');
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    dispatch(addContact({ name: userName, phoneNumber: number }));
+    dispatch(addContact({ name: userName, number: userNumber }));
     reset();
   };
 
@@ -71,8 +71,8 @@ const ContactForm = () => {
         Number
         <Input
           type="tel"
-          name="number"
-          value={number}
+          name="userNumber"
+          value={userNumber}
           onChange={handleInputChange}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
