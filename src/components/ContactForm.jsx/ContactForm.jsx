@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'api/contacts';
 import { getContacts } from 'redux/selectors';
 
 const ContactForm = () => {
@@ -11,7 +11,7 @@ const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const handleInputChange = ({ target: { name, value } }) => {
-    const normalizedValue= value.toLowerCase();
+    const normalizedValue = value.toLowerCase();
     if (name === 'number')
       if (contacts.some(contact => contact.number === value))
         toast.error(`Number ${value} is also in contacts`, {
@@ -26,7 +26,9 @@ const ContactForm = () => {
         });
       else setNumber(value);
     if (name === 'userName')
-      if (contacts.some(contact => contact.name.toLowerCase() === normalizedValue))
+      if (
+        contacts.some(contact => contact.name.toLowerCase() === normalizedValue)
+      )
         toast.error(`${value} also in your list`, {
           position: 'top-left',
           autoClose: 2000,
@@ -47,7 +49,7 @@ const ContactForm = () => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    dispatch(addContact(userName, number));
+    dispatch(addContact({ name: userName, phoneNumber: number }));
     reset();
   };
 
