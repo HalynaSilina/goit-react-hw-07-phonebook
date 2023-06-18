@@ -8,6 +8,8 @@ import { Container, Title, Contacts } from './App.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts, getError, getLoading } from 'redux/selectors';
 import { fetchContacts } from 'api/contacts';
+import Error from 'components/Error/Error';
+import Loader from 'components/Loader/Loader';
 
 const App = () => {
   const contacts = useSelector(getContacts);
@@ -22,12 +24,13 @@ const App = () => {
     <Container>
       <Title>Phonebook</Title>
       <ContactForm />
-      {isLoading && !error && <p>Loading...</p>}
+      {isLoading && !error && <Loader />}
+      {error && <Error />}
       {contacts.length !== 0 && (
         <>
           <Contacts>Contacts</Contacts>
           <Filter />
-          <ContactList />
+          {!isLoading && <ContactList />}
         </>
       )}
       <ToastContainer />
